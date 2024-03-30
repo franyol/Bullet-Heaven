@@ -1,4 +1,5 @@
 #include "lambda.h"
+#include <iostream>
 
 using namespace std;
 

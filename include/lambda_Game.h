@@ -27,6 +27,8 @@
             virtual void handleEvents ();
             virtual void update ();
             virtual void render ();
+            virtual void clean  ();
+            virtual void exit   ();
 
             virtual void mainLoop ();
     };
