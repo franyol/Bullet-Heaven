@@ -12,6 +12,14 @@ bool LE_GameBase::init ( const char *title, int window_height,
         return false;
     }
 
+    // Init SDL Image
+    int imgFlags = IMG_INIT_PNG;
+    if ( !(IMG_Init(imgFlags) & imgFlags) ) {
+        cerr << "Error initializing SDL Image: " << IMG_GetError() << endl;
+        SDL_Quit();
+        return false;
+    }
+
     // Initialize game window
     Uint32 flags = SDL_WINDOW_SHOWN;
     if ( full_screen ) {
@@ -25,6 +33,8 @@ bool LE_GameBase::init ( const char *title, int window_height,
 
     if ( sdl_Window == NULL ) {
         cerr << "Error initializing window: " << SDL_GetError() << endl;
+        IMG_Quit();
+        SDL_Quit();
         return false;
     }
 
@@ -33,6 +43,8 @@ bool LE_GameBase::init ( const char *title, int window_height,
 
     if ( sdl_Renderer == NULL ) {
         cerr << "Error initializing renderer: " << SDL_GetError() << endl;
+        IMG_Quit();
+        SDL_Quit();
         return false;
     }
 
@@ -48,6 +60,7 @@ LE_GameBase::~LE_GameBase () {
         // Cleanup: Destroy all SDL Elements created by the class
         SDL_DestroyRenderer( sdl_Renderer );
         SDL_DestroyWindow( sdl_Window );
+        IMG_Quit();
         SDL_Quit();
     }
 }

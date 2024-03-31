@@ -1,5 +1,6 @@
 #include <iostream>
 #include <SDL2/SDL.h>
+#include <SDL2/SDL_image.h>
 
 #ifndef _LAMBDA_ENGINE_GAME_BASE_H_
 #define _LAMBDA_ENGINE_GAME_BASE_H_

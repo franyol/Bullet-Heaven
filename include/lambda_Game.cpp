@@ -1,14 +1,12 @@
 #include "lambda_Game.h"
 #include "lambda_InputHandler.h"
 #include <iostream>
-// #include "lambda_FSM.h"
+#include "lambda_FSM.h"
 
 #define FPS 30
 #define DELTA_T 1000.0f / FPS
 
 using namespace std;
-
-int red_scale = 0;
 
 LE_Game* LE_Game::the_instance;
 
@@ -17,24 +15,23 @@ void LE_Game::handleEvents () {
 }
 
 void LE_Game::update () {
-    // Updating
-    // TODO: run fsm updates
-    //
-    if ( LE_InputHandler::Instance()->getKeyState( SDLK_UP ) == keyState::pressed )
-        cout << "Up key pressed" << endl;
-    else if ( LE_InputHandler::Instance()->getKeyState( SDLK_UP ) == keyState::released ) {
-        cout << "Up key released" << endl;
-        LE_InputHandler::Instance()->setKeyState( SDLK_UP, keyState::iddle );
-    }
-    red_scale = (red_scale + 30) % 200;
+    //if ( LE_InputHandler::Instance()->getKeyState( SDLK_UP ) == keyState::pressed )
+    //    cout << "Up key pressed" << endl;
+    //else if ( LE_InputHandler::Instance()->getKeyState( SDLK_UP ) == keyState::released ) {
+    //    cout << "Up key released" << endl;
+    //    LE_InputHandler::Instance()->setKeyState( SDLK_UP, keyState::iddle );
+    //}
+
+    LE_StateMachine::Instance()->update();
 }
 
 void LE_Game::render () {
-    // TODO: run fsm renders
-    // A render manager to handle views and layers
-    //
-    SDL_SetRenderDrawColor(get_sdl_renderer(), red_scale, 0, 0, 100);
+
+    SDL_SetRenderDrawColor(get_sdl_renderer(), 255, 255, 255, 255);
     SDL_RenderClear(get_sdl_renderer());
+
+    LE_StateMachine::Instance()->render();
+
     SDL_RenderPresent(get_sdl_renderer());
 }
 
