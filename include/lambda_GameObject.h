@@ -25,7 +25,7 @@
 
     class LE_GameObject
     {
-        private:
+        protected:
             SDL_Texture* texture;
             std::string currentFrame;
 

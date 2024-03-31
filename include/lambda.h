@@ -6,5 +6,6 @@
     #include "lambda_Game.h"
     #include "lambda_GameObject.h"
     #include "lambda_FSM.h"
+    #include "lambda_InputHandler.h"
 
 #endif
