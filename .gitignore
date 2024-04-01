@@ -1,2 +1,5 @@
 main
 objs/*.o
+
+build/
+build_debug/

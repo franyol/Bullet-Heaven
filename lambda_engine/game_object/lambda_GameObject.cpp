@@ -1,5 +1,5 @@
 #include "lambda_GameObject.h"
-#include "lambda_Game.h"
+#include "game_logic/lambda_Game.h"
 #include <SDL2/SDL_image.h>
 #include <iostream>
 

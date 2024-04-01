@@ -1,7 +1,7 @@
 #include <vector>
 #include <map>
 #include <string>
-#include "lambda_GameObject.h"
+#include "game_object/lambda_GameObject.h"
 
 #include <iostream>
 
