@@ -19,7 +19,7 @@ void LE_Texture::clean() {
     }
     sdl_textures.clear();
     
-    for ( auto it = tileSet.begin(); it != tileMap.end(); it++ ) {
+    for ( auto it = tileSet.begin(); it != tileSet.end(); it++ ) {
         delete it->second;
     }
     tileSet.clear();
