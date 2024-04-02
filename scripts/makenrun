@@ -1,0 +1,7 @@
+cd build_debug
+
+make
+
+cd ..
+
+./build_debug/main

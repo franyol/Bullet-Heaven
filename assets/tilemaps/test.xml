@@ -24,16 +24,16 @@
             <pos x="144" y="96" h="2" w="2" angle="0" scale="true" flipv="false" fliph="false"/>
         </set>
         <set tile="p1-day">
-            <pos x="0" y="48" h="1" w="1" angle="0" scale="true" flipv="false" fliph="false"/>
+            <pos x="0" y="48" h="2" w="2" angle="0" scale="true" flipv="false" fliph="false"/>
         </set>
         <set tile="p2-day">
-            <pos x="48" y="48" h="1" w="1" angle="0" scale="true" flipv="false" fliph="false"/>
+            <pos x="48" y="48" h="2" w="2" angle="0" scale="true" flipv="false" fliph="false"/>
         </set>
         <set tile="p3-day">
-            <pos x="96" y="48" h="1" w="1" angle="0" scale="true" flipv="false" fliph="false"/>
+            <pos x="96" y="48" h="2" w="2" angle="0" scale="true" flipv="false" fliph="false"/>
         </set>
         <set tile="p4-day">
-            <pos x="144" y="48" h="1" w="1" angle="0" scale="true" flipv="false" fliph="false"/>
+            <pos x="144" y="48" h="2" w="2" angle="0" scale="true" flipv="false" fliph="false"/>
         </set>
     </tilemap>
 </TILEMAPS>
