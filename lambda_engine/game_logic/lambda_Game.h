@@ -5,7 +5,7 @@
 #define _LAMBDA_ENGINE_GAME_H_
 
     #define LE_GAME LE_Game::Instance()
-    #define QUIT_LE_GAME LE_Gane::destroyInstance()
+    #define QUIT_LE_GAME LE_Game::destroyInstance()
 
     class LE_Game
     {
@@ -45,7 +45,7 @@
             }
 
             // Time elapsed since last frame in milliseconds
-            uint32 getDeltaTime () { return deltaTime; }
+            Uint32 getDeltaTime () { return deltaTime; }
 
             void fixFramerate ( int fps ) {
                 framerate = fps;
@@ -54,14 +54,22 @@
 
             void unfixFramerate () { framerateFixed = false; }
 
-            void createWindow ( const char* title, int w, int h,
+            /*
+             * Creates a new window and returns 
+             * */
+            Uint32 createWindow ( const char* title, int w, int h,
                    bool full_screen = false, bool input_focus = false,
                    bool hidden = false, bool borderless = false, 
                    bool resizable = false ) {
-                windows.push_back ( 
-                        LE_TEXTURE->addWindow( title, w, h, full_screen, input_focus,
-                           hidden, borderless, resizable ) 
-                        );
+                Uint32 windowId = LE_TEXTURE->addWindow( title, w, h, 
+                            full_screen, input_focus,
+                           hidden, borderless, resizable );
+                windows.push_back ( windowId );
+                return windowId;
+            }
+
+            Uint32 getWindow ( int idx ) {
+                return windows.at(idx);
             }
 
             bool isRunning ( void ) { return running; }

@@ -8,6 +8,9 @@
 #ifndef _LAMBDA_ENGINE_FSM_H_
 #define _LAMBDA_ENGINE_FSM_H_
 
+    #define LE_FSM LE_StateMachine::Instance()
+    #define QUIT_LE_FSM LE_StateMachine::destroyInstance()
+
     class LE_GameState
     {
         private:
@@ -55,10 +58,16 @@
             ~LE_StateMachine () { clean(); }
 
             static LE_StateMachine* Instance ( void ) {
-                if ( the_instance == 0 ) {
+                if ( the_instance == nullptr ) {
                     the_instance = new LE_StateMachine();
                 }
                 return the_instance;
+            }
+            static void destroyInstance () {
+                if ( the_instance != nullptr ) {
+                    delete the_instance;
+                    the_instance = nullptr;
+                }
             }
 
 

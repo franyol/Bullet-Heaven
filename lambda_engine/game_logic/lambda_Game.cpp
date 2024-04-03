@@ -20,7 +20,7 @@ void LE_Game::render () {
         LE_TEXTURE->fillBackground( windowId, 255, 255, 255, 255 );
     }
 
-    LE_StateMachine::Instance()->render();
+    LE_FSM->render();
 
     for ( Uint32 windowId : windows ) {
         LE_TEXTURE->present( windowId );
