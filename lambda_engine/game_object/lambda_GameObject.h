@@ -15,8 +15,8 @@
         protected:
             // protected types sould be accessible from inherited classes
             // so no getter functions are needed
-            int x;
-            int y;
+            double x;
+            double y;
             double h;
             double w;
             double angle;
