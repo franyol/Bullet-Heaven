@@ -1,7 +1,8 @@
 cd build_debug
 
-make
+if make; then
 
 cd ..
-
 ./build_debug/main
+
+fi
