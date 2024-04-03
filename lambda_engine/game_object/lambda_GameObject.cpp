@@ -25,9 +25,9 @@ void LE_GameObject::loadSpriteSheet ( std::string spriteSheet ) {
         return;
     }
 
-    texture = SDL_CreateTextureFromSurface (
-            LE_Game::Instance()->get_sdl_renderer(),
-            tempSurface);
+    //texture = SDL_CreateTextureFromSurface (
+    //        LE_Game::Instance()->get_sdl_renderer(),
+    //        tempSurface);
     if ( texture == nullptr ) {
         std::cerr << "Error creating texture from " << spriteSheet << ": "
                   << SDL_GetError() << std::endl;
@@ -65,9 +65,9 @@ void LE_GameObject::render() {
     else if ( flip_horizontal )
         flip = SDL_FLIP_HORIZONTAL;
 
-    if ( ( SDL_RenderCopyEx(
-                    LE_Game::Instance()->get_sdl_renderer(), texture,
-                    &src, &dst, 0, NULL, flip) ) < 0 ) {
-        std::cerr << "Error rendering texture: " << SDL_GetError() << std::endl;
-    }
+    //if ( ( SDL_RenderCopyEx(
+    //                LE_Game::Instance()->get_sdl_renderer(), texture,
+    //                &src, &dst, 0, NULL, flip) ) < 0 ) {
+    //    std::cerr << "Error rendering texture: " << SDL_GetError() << std::endl;
+    //}
 }

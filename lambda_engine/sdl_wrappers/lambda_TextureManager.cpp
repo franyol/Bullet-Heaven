@@ -23,6 +23,12 @@ void LE_Texture::clean() {
         delete it->second;
     }
     tileSet.clear();
+    SDL_DestroyWindow( sdl_window );
+
+    // Exit SDL
+    SDL_Quit();
+    IMG_Quit();
+    TTF_Quit();
 }
 
 void LE_TextureManager::init() {

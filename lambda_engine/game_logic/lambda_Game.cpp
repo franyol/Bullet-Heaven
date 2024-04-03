@@ -1,7 +1,7 @@
 #include "lambda_Game.h"
 #include "input_handler/lambda_InputHandler.h"
-#include <iostream>
 #include "lambda_FSM.h"
+#include <iostream>
 
 #define FPS 30
 #define DELTA_T 1000.0f / FPS
@@ -15,42 +15,37 @@ void LE_Game::handleEvents () {
 }
 
 void LE_Game::update () {
-    //if ( LE_InputHandler::Instance()->getKeyState( SDLK_UP ) == keyState::pressed )
-    //    cout << "Up key pressed" << endl;
-    //else if ( LE_InputHandler::Instance()->getKeyState( SDLK_UP ) == keyState::released ) {
-    //    cout << "Up key released" << endl;
-    //    LE_InputHandler::Instance()->setKeyState( SDLK_UP, keyState::iddle );
-    //}
-
     LE_StateMachine::Instance()->update();
 }
 
 void LE_Game::render () {
-
-    SDL_SetRenderDrawColor(get_sdl_renderer(), 255, 255, 255, 255);
-    SDL_RenderClear(get_sdl_renderer());
+    for ( Uint32 windowId : windows ) {
+        LE_TEXTURE->fillBackground( windowId, 255, 255, 255, 255 );
+    }
 
     LE_StateMachine::Instance()->render();
 
-    SDL_RenderPresent(get_sdl_renderer());
+    for ( Uint32 windowId : windows ) {
+        LE_TEXTURE->present( windowId );
+    }
 }
 
 void LE_Game::mainLoop () {
 
-    if ( !was_init() ) {
-        cerr << "Main loop could not start because game object was not initialized." << endl;
+    if (!LE_TEXTURE->EverythingWasInit()) {
+        std::cerr << "Could not init texture manager" << std::endl;
         return;
     }
 
     Uint32 frameStart, frameTime;
 
-    Instance()->set_running(true);
-    while ( Instance()->running() ) {
+    running = true;
+    while ( running ) {
         frameStart = SDL_GetTicks();
 
-        Instance()->handleEvents();
-        Instance()->update();
-        Instance()->render();
+        handleEvents();
+        update();
+        render();
 
         // Fix framerate
         frameTime = SDL_GetTicks() - frameStart;
@@ -62,16 +57,12 @@ void LE_Game::mainLoop () {
 }
 
 void LE_Game::clean () {
-    if ( !was_init() ) return;
-
-    SDL_DestroyRenderer( get_sdl_renderer() );
-    SDL_DestroyWindow  ( get_sdl_window() );
-
+    LE_TEXTURE->clean();
     LE_InputHandler::Instance()->clean();
+    delete the_instance;
 }
 
 void LE_Game::exit () {
     cout << "Cleaning up" << endl;
     clean();
-    SDL_Quit();
 }

@@ -1,36 +1,60 @@
-#include "lambda_GameBase.h" // Already includes SDL
+#include "sdl_wrappers/lambda_TextureManager.h"
+#include <vector>
 
 #ifndef _LAMBDA_ENGINE_GAME_H_
 #define _LAMBDA_ENGINE_GAME_H_
 
-    class LE_Game : public LE_GameBase
+    #define LE_GAME LE_Game::Instance()
+    #define QUIT_LE_GAME LE_Gane::destroyInstance()
+
+    class LE_Game
     {
         private:
-            bool is_running;
+            bool running;
+            std::vector<Uint32> windows;
 
             // Singleton
             static LE_Game* the_instance;
-            LE_Game (): LE_GameBase() {}
+            LE_Game () {}
 
         public:
+            ~LE_Game () { clean(); }
+
             // Singleton
             static LE_Game* Instance() {
-                if ( the_instance == 0 ) {
+                if ( the_instance == nullptr ) {
                     the_instance = new LE_Game();
                 } 
                 return the_instance;
             }
 
-            bool running ( void ) { return is_running; }
-            void set_running ( bool state ) { is_running = state; }
+            static void destroyInstance() {
+                if (the_instance != nullptr) {
+                    delete the_instance;
+                    the_instance = nullptr;
+                }
+            }
 
-            virtual void handleEvents ();
-            virtual void update ();
-            virtual void render ();
-            virtual void clean  ();
-            virtual void exit   ();
+            void createWindow ( const char* title, int w, int h,
+                   bool full_screen = false, bool input_focus = false,
+                   bool hidden = false, bool borderless = false, 
+                   bool resizable = false ) {
+                windows.push_back ( 
+                        LE_TEXTURE->addWindow( title, w, h, full_screen, input_focus,
+                           hidden, borderless, resizable ) 
+                        );
+            }
 
-            virtual void mainLoop ();
+            bool isRunning ( void ) { return running; }
+            void setRunning ( bool state ) { running = state; }
+
+            void handleEvents ();
+            void update ();
+            void render ();
+            void clean  ();
+            void exit   ();
+
+            void mainLoop ();
     };
 
 #endif

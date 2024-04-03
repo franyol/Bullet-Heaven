@@ -12,6 +12,7 @@
      * Macro for retrieving the texture manager instance
      * */
     #define LE_TEXTURE LE_TextureManager::Instance()
+    #define QUIT_LE_TEXTURE LE_TextureManager::destroyInstance()
 
     /*
      * Saves the tiles position for a texture id, useful to
@@ -285,10 +286,16 @@
              * Singleton instance retriever
              * */
             static LE_TextureManager* Instance () {
-                if ( tm_instance == 0 ) {
+                if ( tm_instance == nullptr ) {
                     tm_instance = new LE_TextureManager ();
                 }
                 return tm_instance;
+            }
+            static void destrouInstance () {
+                if ( tm_instance != nullptr ) {
+                    delete tm_instance;
+                    tm_instance = nullptr;
+                }
             }
 
             /*

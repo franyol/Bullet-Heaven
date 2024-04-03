@@ -7,6 +7,8 @@
 #define _LAMBDA_TILE_MAP_H_
 
     #define LE_TILEMAP LE_TileMapManager::Instance()
+    #define QUIT_LE_TILEMAP LE_TileMapManager::destroyInstance()
+
     typedef uint32_t Uint32;
 
     class LE_TileDrawInfo
@@ -87,10 +89,16 @@
         public:
             ~LE_TileMapManager () { clean(); }
             static LE_TileMapManager* Instance () {
-                if ( the_instance == 0 ) {
+                if ( the_instance == nullptr ) {
                     the_instance = new LE_TileMapManager();
                 }
                 return the_instance;
+            }
+            static void destroyInstance () {
+                if ( the_instance != nullptr ) {
+                    delete the_instance;
+                    the_instance = nullptr;
+                }
             }
 
             void addMap ( std::string mapId, LE_TileMap* newMap ) {
