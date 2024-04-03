@@ -17,7 +17,7 @@ void LE_Game::update () {
 
 void LE_Game::render () {
     for ( Uint32 windowId : windows ) {
-        LE_TEXTURE->fillBackground( windowId, 255, 255, 255, 255 );
+        LE_TEXTURE->fillBackground( windowId, 255, 0, 255, 255 );
     }
 
     LE_FSM->render();
@@ -58,7 +58,7 @@ void LE_Game::mainLoop () {
             deltaTime = frameTime;
         }
     }
-    exit();
+    clean();
 }
 
 void LE_Game::clean () {
