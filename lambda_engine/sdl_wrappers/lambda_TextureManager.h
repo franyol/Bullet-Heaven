@@ -291,7 +291,7 @@
                 }
                 return tm_instance;
             }
-            static void destrouInstance () {
+            static void destroyInstance () {
                 if ( tm_instance != nullptr ) {
                     delete tm_instance;
                     tm_instance = nullptr;

@@ -5,6 +5,9 @@
 #ifndef _LAMBDA_INPUT_HANDLER_H_
 #define _LAMBDA_INPUT_HANDLER_H_
 
+    #define LE_INPUT LE_InputHandler::Instance()
+    #define QUIT_LE_INPUT LE_InputHandler::destroyInstance()
+
     typedef enum keyState {
         pressed,
         released,
@@ -26,10 +29,17 @@
             std::map<int, keyState> keys;
         public:
             static LE_InputHandler* Instance() {
-                if ( the_instance == 0 ) {
+                if ( the_instance == nullptr ) {
                     the_instance = new LE_InputHandler();
                 }
                 return the_instance;
+            }
+            
+            static void destroyInstance () {
+                if ( the_instance != nullptr ) {
+                    delete the_instance;
+                    the_instance = nullptr;
+                }
             }
 
             void initJoysticks();
