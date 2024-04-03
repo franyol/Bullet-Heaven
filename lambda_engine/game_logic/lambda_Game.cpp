@@ -3,9 +3,6 @@
 #include "lambda_FSM.h"
 #include <iostream>
 
-#define FPS 30
-#define DELTA_T 1000.0f / FPS
-
 using namespace std;
 
 LE_Game* LE_Game::the_instance;
@@ -47,10 +44,18 @@ void LE_Game::mainLoop () {
         update();
         render();
 
-        // Fix framerate
-        frameTime = SDL_GetTicks() - frameStart;
-        if ( frameTime < DELTA_T ) {
-            SDL_Delay( (int)(DELTA_T - frameTime) );
+        if ( framerateFixed ) {
+            // Fix framerate
+            frameTime = SDL_GetTicks() - frameStart;
+            double frameMaxTime = 1000.0f/framerate;
+            if ( frameTime < frameMaxTime ) {
+                SDL_Delay( (int)(frameMaxTime - frameTime) );
+                deltaTime = frameMaxTime;
+            } else {
+                deltaTime = frameTime;
+            }
+        } else {
+            deltaTime = frameTime;
         }
     }
     exit();
@@ -59,10 +64,10 @@ void LE_Game::mainLoop () {
 void LE_Game::clean () {
     LE_TEXTURE->clean();
     LE_InputHandler::Instance()->clean();
-    delete the_instance;
 }
 
 void LE_Game::exit () {
     cout << "Cleaning up" << endl;
+    running = false;
     clean();
 }

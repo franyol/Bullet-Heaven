@@ -13,9 +13,18 @@
             bool running;
             std::vector<Uint32> windows;
 
+            bool framerateFixed;
+            int framerate;
+
+            Uint32 deltaTime;
+
             // Singleton
             static LE_Game* the_instance;
-            LE_Game () {}
+            LE_Game () {
+                running = false;
+                framerateFixed = false;
+                framerate = 30;
+            }
 
         public:
             ~LE_Game () { clean(); }
@@ -34,6 +43,16 @@
                     the_instance = nullptr;
                 }
             }
+
+            // Time elapsed since last frame in milliseconds
+            uint32 getDeltaTime () { return deltaTime; }
+
+            void fixFramerate ( int fps ) {
+                framerate = fps;
+                framerateFixed = true;
+            }
+
+            void unfixFramerate () { framerateFixed = false; }
 
             void createWindow ( const char* title, int w, int h,
                    bool full_screen = false, bool input_focus = false,

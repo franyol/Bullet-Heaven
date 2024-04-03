@@ -45,7 +45,7 @@ void LE_InputHandler::update() {
         switch (event.type)
         {
             case SDL_QUIT: 
-                LE_Game::Instance()->setRunning(false);
+                LE_Game::Instance()->exit();
                 break;
 
             /*
