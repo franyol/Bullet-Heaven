@@ -53,6 +53,15 @@
                  draws.clear();
              }
 
+             void moveMap ( int x, int y ) {
+                 for ( auto it = draws.begin(); it != draws.end(); it++ ) {
+                     for ( LE_TileDrawInfo* drawInfo : it->second ) {
+                         drawInfo->x += x;
+                         drawInfo->y += y;
+                     }
+                 }
+             }
+
              void addDrawInfo ( std::string tileId, LE_TileDrawInfo* drawInfo ) {
                  auto it = draws.find( tileId );
                  if ( it == draws.end() ) {
@@ -63,6 +72,8 @@
              }
 
              void drawMap ();
+
+             void blendToTexture ( std::string textureId );
     };
 
     class LE_TileMapManager
@@ -113,6 +124,13 @@
             }
 
             void loadFromXmlFile ( std::string filePath, Uint32 windowId );
+
+             void blendToTexture ( std::string mapId, std::string textureId ) {
+                auto it = projectMaps.find(mapId);
+                if (it == projectMaps.end()) return;
+
+                it->second->blendToTexture( textureId );
+             }
 
             void clean() {
                 for ( auto it=projectMaps.begin(); it != projectMaps.end(); it++ ) {

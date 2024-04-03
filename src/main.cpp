@@ -15,7 +15,12 @@ int main () {
     Uint32 mainWindow = LE_TEXTURE->addWindow( "Test", 640, 480 );
 
     LE_TILEMAP->loadFromXmlFile ( "assets/tilemaps/test.xml", mainWindow );
+    LE_TILEMAP->blendToTexture( "day-background", "blendedBG" );
+
     LE_TILEMAP->drawMap ( "day-background" );
+
+    LE_TEXTURE->addTile ( mainWindow, "blendedBG", "BGTile"  );
+    LE_TEXTURE->draw ( mainWindow, "BGTile", 300, 300 );
 
     LE_TEXTURE->present( mainWindow );
     SDL_Delay (5000);

@@ -240,6 +240,13 @@
                     std::string filePath, 
                     std::string textureId );
 
+            void addTexture ( Uint32 windowId, std::string textureId, SDL_Texture* nT ) {
+                auto it = windows.find( windowId );
+                if ( it != windows.end() ) {
+                    it->second->addTexture( textureId, nT );
+                }
+            }
+
             void popTexture ( Uint32 windowId, std::string textureId ) {
                 auto it = windows.find( windowId );
                 if ( it != windows.end() ) {
@@ -249,11 +256,13 @@
 
             /*
              * Adds a tile to the tile map
+             * if h or w are entered as 0, the tile will
+             * get the texture dimentions.
              * */
             void addTile ( Uint32 windowId,
                     std::string textureId,
                     std::string tileId,
-                    int x, int y, int h, int w );
+                    int x = 0, int y = 0, int h = 0, int w = 0 );
 
             void popTile ( Uint32 windowId, std::string tileId ) {
                 auto it = windows.find( windowId );
@@ -315,8 +324,8 @@
              * so no more info is needed.
              * */
             bool draw ( Uint32 windowId, std::string tileId,
-                        int x, int y, double h, double w, 
-                        bool scale = false, bool flipv = false,
+                        int x, int y, double h = 1, double w = 1, 
+                        bool scale = true, bool flipv = false,
                         bool fliph = false, const double angle = 0 );
 
             /*
@@ -324,10 +333,11 @@
              * be blended into this texture instead of the window until
              * restoreRenderTarget() is called
              * */
-            SDL_Texture* createTargetTexture ( Uint32 windowId, int h, int w ) {
+            void createTargetTexture ( Uint32 windowId, std::string textureId, 
+                                       int h, int w ) {
                 auto it = windows.find ( windowId );
                 if ( it == windows.end() ) {
-                    return NULL;
+                    return;
                 }
 
                 SDL_Texture* targetTexture = SDL_CreateTexture ( 
@@ -335,10 +345,9 @@
                         SDL_PIXELFORMAT_RGBA8888,
                         SDL_TEXTUREACCESS_TARGET,
                         w, h );
+                addTexture ( windowId, textureId, targetTexture );
 
                 SDL_SetRenderTarget ( it->second->getRenderer(), targetTexture );
-
-                return targetTexture;
             }
 
             /*
@@ -350,6 +359,15 @@
                 if ( it == windows.end() ) return;
 
                 SDL_SetRenderTarget ( it->second->getRenderer(), NULL );
+            }
+
+            void getTileDimentions ( Uint32 windowId, std::string tileId, int* h, int* w ) {
+                auto it = windows.find ( windowId );
+                if ( it == windows.end() ) return;
+                auto it2 = it->second->tileSet.find ( tileId );
+                if ( it2 == it->second->tileSet.end() ) return;
+                if ( h != nullptr ) *h = it2->second->h;
+                if ( w != nullptr ) *w = it2->second->w;
             }
     };
 

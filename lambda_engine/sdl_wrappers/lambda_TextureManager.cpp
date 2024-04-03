@@ -124,7 +124,12 @@ void LE_TextureManager::addTile ( Uint32 windowId, std::string textureId,
                                   std::string tileId, int x, int y, int h, int w ) {
     auto it = windows.find( windowId );
     if ( it == windows.end() ) return;
-
+    
+    if ( h == 0 || w == 0 ) {
+        SDL_Texture* texture = it->second->getTexture ( textureId );
+        
+        SDL_QueryTexture ( texture, NULL, NULL, &w, &h );   
+    }
     it->second->addTile( tileId, new LE_Tile( textureId, x, y, h, w ) );
 }
 
