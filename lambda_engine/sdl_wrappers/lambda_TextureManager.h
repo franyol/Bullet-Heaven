@@ -318,6 +318,39 @@
                         int x, int y, double h, double w, 
                         bool scale = false, bool flipv = false,
                         bool fliph = false, const double angle = 0 );
+
+            /*
+             * Change target to a new texture, all draw functions will
+             * be blended into this texture instead of the window until
+             * restoreRenderTarget() is called
+             * */
+            SDL_Texture* createTargetTexture ( Uint32 windowId, int h, int w ) {
+                auto it = windows.find ( windowId );
+                if ( it == windows.end() ) {
+                    return NULL;
+                }
+
+                SDL_Texture* targetTexture = SDL_CreateTexture ( 
+                        it->second->getRenderer(), 
+                        SDL_PIXELFORMAT_RGBA8888,
+                        SDL_TEXTUREACCESS_TARGET,
+                        w, h );
+
+                SDL_SetRenderTarget ( it->second->getRenderer(), targetTexture );
+
+                return targetTexture;
+            }
+
+            /*
+             * Restore all the draw functions to draw to the window again
+             * if crateTargetTexture() was called before
+             * */
+            void restoreRenderTarget ( Uint32 windowId ) {
+                auto it = windows.find ( windowId );
+                if ( it == windows.end() ) return;
+
+                SDL_SetRenderTarget ( it->second->getRenderer(), NULL );
+            }
     };
 
 #endif
