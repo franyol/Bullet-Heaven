@@ -8,6 +8,10 @@
         <tile id="p3-day" x="50" y="25" h="24" w="24"/>
         <tile id="p4-day" x="75" y="25" h="24" w="24"/>
     </texture>
+    <texture filename="assets/tilemap-characters.png" id="characterTexture">
+        <tile id="alien-stand" x="2" y="0" h="24" w="20"/>
+        <tile id="alien-step" x="27" y="0" h="24" w="20"/>
+    </texture>
 </TILESETS>
 <TILEMAPS>
     <tilemap id="day-background">

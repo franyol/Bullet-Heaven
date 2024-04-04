@@ -1,5 +1,7 @@
 #include "lambda.h"
 #include <iostream>
+#include <cmath>
+#include <cstring>
 
 using namespace std;
 
@@ -24,6 +26,7 @@ class Player: public LE_GameObject
 {
     private:
         int speed;
+        int compspeed;
 
         int x_speed;
         int y_speed;
@@ -31,11 +34,13 @@ class Player: public LE_GameObject
         bool moving;
         int animFPS;
 
+        double animTime;
+        double dt;
+
     public: 
         Player () { setup(); }
 
         void setup () {
-            cout << "Running setup" << endl;
             LE_GameObject::setup();
             x = 300;
             y = 180;
@@ -43,6 +48,7 @@ class Player: public LE_GameObject
             h = w = 3;
             x_speed = y_speed = 0;
             speed = 170;
+            compspeed = sqrt(2)*speed;
             moving = false;
 
             frames["stand"] = { "alien-stand", mainWindow };
@@ -50,6 +56,7 @@ class Player: public LE_GameObject
             currentFrame = "stand";
 
             animFPS = 12;
+            animTime = 0;
         }
 
         void update () {
@@ -71,10 +78,13 @@ class Player: public LE_GameObject
             else x_speed = 0;
 
             moving = ( x_speed != 0 || y_speed != 0 );
+            if ( x_speed != 0 && y_speed != 0 ) {
+                x_speed *= compspeed/speed;
+                y_speed *= compspeed/speed;
+            }
 
-            static double animTime = 0;
-            static double dt; 
             dt = LE_GAME->getDeltaTime ();
+            std::cout << 1000/dt << std::endl;
 
             if ( moving ) {
                 // step animation
@@ -113,19 +123,34 @@ class SimpleGame: public LE_GameState
             LE_TILEMAP->blendToTexture ( "day-background", "bgTexture" );
             LE_TEXTURE->addTile ( mainWindow, "bgTexture", "bgTile" );
 
-            // Load player textures
-            LE_TEXTURE->loadTexture ( 
-                    mainWindow, 
-                    "assets/tilemap-characters.png", 
-                    "characterTexture" );
-            LE_TEXTURE->addTile ( mainWindow, "characterTexture", 
-                                    "alien-stand" , 2, 0, 24, 20 );
-            LE_TEXTURE->addTile ( mainWindow, "characterTexture", 
-                                    "alien-step" , 27, 0, 24, 20 );
-
             // Spawn the player
             addObject ( new Background(), "BackgroundInstance"  );
             addObject ( new Player(), "playerInstance" );
+        }
+        
+        void update () {
+            LE_GameState::update();
+            
+            static char ninstances = 'a';
+            char pin[] = "pin";
+            static char nstring[2] = "x";
+            static bool released = true;
+ 
+            if ( released ) {
+                if (LE_INPUT->getKeyState( SDLK_SPACE ) == keyState::pressed) {
+                    nstring[0] = ninstances++;
+                    addObject ( new Player(), strcat(pin, nstring) );
+                    released = false;
+                }
+                if (LE_INPUT->getKeyState( SDLK_BACKSPACE ) == keyState::pressed) {
+                    nstring[0] = --ninstances;
+                    popObject ( strcat( pin, nstring ) );
+                    released = false;
+                }
+            }
+            if (LE_INPUT->getKeyState( SDLK_ESCAPE ) == keyState::pressed) {
+                released = true;
+            }
         }
 };
 
