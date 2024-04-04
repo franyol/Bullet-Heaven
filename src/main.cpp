@@ -1,11 +1,16 @@
 #include "lambda.h"
 #include <iostream>
+#include <random>
 #include <cmath>
 #include <cstring>
 
 using namespace std;
 
+#define SCREEN_H 720
+#define SCREEN_W 1080
+
 Uint32 mainWindow;
+int windowHeight, windowWidth;
 
 class Background: public LE_GameObject
 {
@@ -16,8 +21,8 @@ class Background: public LE_GameObject
             LE_GameObject::setup();
             frames["day"] = { "bgTile", mainWindow };
             currentFrame = "day";
-            h = 480;
-            w = 640;
+            h = SCREEN_H;
+            w = SCREEN_W;
             scale = false;
         }
 };
@@ -45,7 +50,7 @@ class Player: public LE_GameObject
             x = 300;
             y = 180;
             scale = true;
-            h = w = 3;
+            h = w = 2;
             x_speed = y_speed = 0;
             speed = 170;
             compspeed = sqrt(2)*speed;
@@ -84,7 +89,7 @@ class Player: public LE_GameObject
             }
 
             dt = LE_GAME->getDeltaTime ();
-            std::cout << 1000/dt << std::endl;
+            //std::cout << 1000/dt << std::endl;
 
             if ( moving ) {
                 // step animation
@@ -105,6 +110,11 @@ class Player: public LE_GameObject
 
             x += (x_speed * dt/1000);
             y += (y_speed * dt/1000);
+
+            if ( x > SCREEN_W - 20*w ) x = SCREEN_W - 20*w;
+            else if ( x < 0 ) x = 0;
+            if ( y > SCREEN_H - 24*h ) y = SCREEN_H - 24*h;
+            else if ( y < 0 ) y = 0;
         }
 };
 
@@ -136,6 +146,7 @@ class SimpleGame: public LE_GameState
             static char nstring[2] = "x";
             static bool released = true;
  
+            if (LE_INPUT->getKeyState( SDLK_ESCAPE ) == keyState::pressed) { LE_GAME->exit(); }
             if ( released ) {
                 if (LE_INPUT->getKeyState( SDLK_SPACE ) == keyState::pressed) {
                     nstring[0] = ninstances++;
@@ -152,6 +163,17 @@ class SimpleGame: public LE_GameState
                 released = true;
             }
         }
+
+        void render () {
+            // Scale main view to screen size
+            LE_TEXTURE->setRenderTarget ( mainWindow, "mainView" );
+
+            LE_GameState::render (); // Normal rendering
+
+            LE_TEXTURE->restoreRenderTarget ( mainWindow );
+            LE_TEXTURE->draw ( mainWindow, "mainViewTile", 0, 0, 
+                    windowHeight, windowWidth, false );
+        }
 };
 
 int main () {
@@ -159,12 +181,17 @@ int main () {
         cerr << "Could not initialize Lambda Engine" << endl;
     }
 
-    mainWindow = LE_GAME->createWindow ( "my game", 640, 480 );
+    mainWindow = LE_GAME->createWindow ( "my game", SCREEN_W, SCREEN_H, true );
+    LE_TEXTURE->createTargetTexture ( mainWindow, "mainView", SCREEN_H, SCREEN_W );
+    LE_TEXTURE->addTile ( mainWindow, "mainView", "mainViewTile" );
+    LE_TEXTURE->getWindowSize ( mainWindow, &windowWidth, &windowHeight );
+
     LE_GAME->fixFramerate ( 60 );
     LE_FSM->push_back ( new SimpleGame() );
 
     LE_GAME->mainLoop();
 
+    SDL_Delay (400);
     LE_Quit();
     return 0;
 }

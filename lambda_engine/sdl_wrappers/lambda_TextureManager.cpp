@@ -77,8 +77,8 @@ Uint32 LE_TextureManager::addWindow (
     SDL_Window* newWindow;
     SDL_Renderer* newRenderer;
 
-    Uint32 winFlags = SDL_WINDOW_SHOWN;
-    if ( full_screen ) winFlags |= SDL_WINDOW_FULLSCREEN;
+    Uint32 winFlags = 0;
+    if ( full_screen ) winFlags |= SDL_WINDOW_FULLSCREEN_DESKTOP;
     if ( input_focus ) winFlags |= SDL_WINDOW_INPUT_FOCUS;
     if ( hidden )      winFlags |= SDL_WINDOW_HIDDEN;
     if ( borderless )  winFlags |= SDL_WINDOW_BORDERLESS;
@@ -166,8 +166,8 @@ bool LE_TextureManager::draw ( Uint32 windowId, std::string tileId, int x, int y
         dst.w = src.w * w;
         dst.h = src.h * h;
     } else {
-        dst.w = (int) w;
-        dst.h = (int) h;
+        dst.w = w;
+        dst.h = h;
     }
 
     if ( 0 >

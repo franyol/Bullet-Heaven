@@ -234,6 +234,13 @@
                 }
             }
 
+            void getWindowSize ( Uint32 windowId, int* height, int* width ) {
+                auto it = windows.find(windowId);
+                if (it != windows.end()) {
+                    SDL_GetWindowSize ( it->second->getWindow(), width, height );
+                } 
+            }
+
             /*
              * Load an sdl texture from a png file
              * */
@@ -357,6 +364,14 @@
                 SDL_SetRenderTarget ( it->second->getRenderer(), targetTexture );
             }
 
+            void setRenderTarget ( Uint32 windowId, std::string textureId ) {
+                auto it = windows.find ( windowId );
+                if ( it == windows.end() ) return;
+                
+                SDL_SetRenderTarget ( it->second->getRenderer(), 
+                        it->second->getTexture( textureId ) );
+            }
+
             /*
              * Restore all the draw functions to draw to the window again
              * if crateTargetTexture() was called before
@@ -368,7 +383,7 @@
                 SDL_SetRenderTarget ( it->second->getRenderer(), NULL );
             }
 
-            void getTileDimentions ( Uint32 windowId, std::string tileId, int* h, int* w ) {
+            void getTileSize ( Uint32 windowId, std::string tileId, int* h, int* w ) {
                 auto it = windows.find ( windowId );
                 if ( it == windows.end() ) return;
                 auto it2 = it->second->tileSet.find ( tileId );

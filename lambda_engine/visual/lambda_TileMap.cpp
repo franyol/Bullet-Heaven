@@ -42,7 +42,7 @@ void LE_TileMap::blendToTexture ( std::string textureId ) {
 
         int tile_h, tile_w, src_h, src_w;
 
-        LE_TEXTURE->getTileDimentions ( windowId, tileId, &src_h, &src_w );
+        LE_TEXTURE->getTileSize ( windowId, tileId, &src_h, &src_w );
 
         for ( LE_TileDrawInfo* drawInfo : drawInfoV ) {
             // Get tile drawn dimentions

@@ -12,6 +12,10 @@
         <tile id="alien-stand" x="2" y="0" h="24" w="20"/>
         <tile id="alien-step" x="27" y="0" h="24" w="20"/>
     </texture>
+    <texture filename="assets/tilemap.png" id="miscellaneous">
+        <tile id="bullet-small" x="155" y="4" h="10" w="10"/>
+        <tile id="bullet" x="27" y="135" h="14" w="14"/>
+    </texture>
 </TILESETS>
 <TILEMAPS>
     <tilemap id="day-background">
