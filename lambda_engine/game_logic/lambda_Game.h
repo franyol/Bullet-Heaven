@@ -16,7 +16,7 @@
             bool framerateFixed;
             int framerate;
 
-            Uint32 deltaTime;
+            double deltaTime;
 
             // Singleton
             static LE_Game* the_instance;
@@ -45,7 +45,7 @@
             }
 
             // Time elapsed since last frame in milliseconds
-            Uint32 getDeltaTime () { return deltaTime; }
+            double getDeltaTime () { return deltaTime; }
 
             void fixFramerate ( int fps ) {
                 framerate = fps;

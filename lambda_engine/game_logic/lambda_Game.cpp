@@ -44,9 +44,9 @@ void LE_Game::mainLoop () {
         update();
         render();
 
+        frameTime = SDL_GetTicks() - frameStart;
         if ( framerateFixed ) {
             // Fix framerate
-            frameTime = SDL_GetTicks() - frameStart;
             double frameMaxTime = 1000.0f/framerate;
             if ( frameTime < frameMaxTime ) {
                 SDL_Delay( (int)(frameMaxTime - frameTime) );
