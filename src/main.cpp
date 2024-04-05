@@ -347,8 +347,22 @@ class SimpleGame: public LE_GameState
             LE_GameState::render (); // Normal rendering
 
             LE_TEXTURE->restoreRenderTarget ( mainWindow );
-            LE_TEXTURE->draw ( mainWindow, "mainViewTile", 0, 0, 
-                    windowHeight, windowWidth, false );
+            static int renderHeight, renderWidth;
+            static int w_x, w_y;
+
+            if (windowHeight > windowWidth) {
+                renderWidth = windowWidth;
+                renderHeight = SCREEN_H * windowWidth / SCREEN_W;
+                w_x = 0;
+                w_y = (windowHeight - renderHeight)/2;
+            } else {
+                renderHeight = windowHeight;
+                renderWidth = SCREEN_W * windowHeight / SCREEN_H;
+                w_y = 0;
+                w_x = (windowWidth - renderWidth)/2;
+            }
+            LE_TEXTURE->draw ( mainWindow, "mainViewTile", w_x, w_y, 
+                    renderHeight, renderWidth, false );
         }
 };
 
@@ -357,7 +371,7 @@ int main () {
         cerr << "Could not initialize Lambda Engine" << endl;
     }
 
-    mainWindow = LE_GAME->createWindow ( "my game", SCREEN_W, SCREEN_H );
+    mainWindow = LE_GAME->createWindow ( "my game", SCREEN_W, SCREEN_H, true );
     LE_TEXTURE->createTargetTexture ( mainWindow, "mainView", SCREEN_H, SCREEN_W );
     LE_TEXTURE->addTile ( mainWindow, "mainView", "mainViewTile" );
     LE_TEXTURE->getWindowSize ( mainWindow, &windowHeight, &windowWidth );
