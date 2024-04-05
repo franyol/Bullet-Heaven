@@ -17,7 +17,7 @@ void LE_Game::update () {
 
 void LE_Game::render () {
     for ( Uint32 windowId : windows ) {
-        LE_TEXTURE->fillBackground( windowId, 255, 0, 255, 255 );
+        LE_TEXTURE->fillBackground( windowId, 0, 0, 0, 0 );
     }
 
     LE_FSM->render();
