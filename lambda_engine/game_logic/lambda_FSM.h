@@ -34,6 +34,13 @@
                     gameObjects.erase(it);
                 }
             }
+            LE_GameObject* getObject ( std::string objId ) {
+                auto it = gameObjects.find(objId);
+                if (it != gameObjects.end()) {
+                    return it->second;
+                }
+                return nullptr;
+            }
 
             virtual void update ();
             virtual void render ();
