@@ -12,6 +12,8 @@
 
     class LE_GameObject
     {
+        friend class LE_GameState;
+
         protected:
             // protected types sould be accessible from inherited classes
             // so no getter functions are needed
@@ -23,6 +25,8 @@
             bool scale;
             bool flipv;
             bool fliph;
+
+            bool destroy_me;
 
             // So a single game object can have frames in different windows
             std::map<std::string, LE_Frame> frames;
@@ -47,6 +51,7 @@
                 angle = 0;
                 scale = true;
                 flipv = fliph = false;
+                destroy_me = false;
             }
             virtual void update () {}
             virtual void render () {

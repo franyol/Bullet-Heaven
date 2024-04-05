@@ -8,8 +8,14 @@ void LE_GameState::update () {
         std::cerr << "State with no game objects to update" << std::endl;
         return;
     }
-    for ( auto it = gameObjects.begin(); it != gameObjects.end(); ++it ) {
-        it->second->update();
+    for ( auto it = gameObjects.begin(); it != gameObjects.end(); ) {
+        if ( it->second->destroy_me ) {
+            delete it->second;
+            it = gameObjects.erase (it);
+        } else {
+            it->second->update();
+            it++;
+        }
     }
 }
 

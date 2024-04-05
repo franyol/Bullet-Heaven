@@ -13,7 +13,7 @@
 
     class LE_GameState
     {
-        private:
+        protected:
             std::map<std::string, LE_GameObject*> gameObjects;
 
         public:
