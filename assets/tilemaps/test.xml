@@ -9,12 +9,20 @@
         <tile id="p4-day" x="75" y="25" h="24" w="24"/>
     </texture>
     <texture filename="assets/tilemap-characters.png" id="characterTexture">
-        <tile id="alien-stand" x="2" y="0" h="24" w="20"/>
-        <tile id="alien-step" x="27" y="0" h="24" w="20"/>
+        <tile id="alien-stand0" x="2" y="0" h="24" w="20"/>
+        <tile id="alien-step0" x="27" y="0" h="24" w="20"/>
+        <tile id="alien-stand1" x="2" y="25" h="24" w="20"/>
+        <tile id="alien-step1" x="27" y="25" h="24" w="20"/>
+        <tile id="alien-stand2" x="52" y="0" h="24" w="20"/>
+        <tile id="alien-step2" x="77" y="0" h="24" w="20"/>
+        <tile id="alien-stand3" x="102" y="0" h="24" w="20"/>
+        <tile id="alien-step3" x="127" y="0" h="24" w="20"/>
+        <tile id="alien-stand4" x="152" y="0" h="24" w="20"/>
+        <tile id="alien-step4" x="177" y="0" h="24" w="20"/>
     </texture>
     <texture filename="assets/tilemap.png" id="miscellaneous">
         <tile id="bullet-small" x="155" y="4" h="10" w="10"/>
-        <tile id="bullet" x="27" y="135" h="14" w="14"/>
+        <tile id="bullet" x="135" y="2" h="14" w="14"/>
     </texture>
 </TILESETS>
 <TILEMAPS>
