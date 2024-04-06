@@ -175,7 +175,7 @@ class Player: public LE_GameObject
             animFPS = 12;
             animTime = 0;
 
-            dashCoolDown = 500;
+            dashCoolDown = 1400;
             timeSinceLastDash = dashCoolDown;
             dashTime = 100;
             dashSpeed = 1100;
@@ -208,6 +208,7 @@ class Player: public LE_GameObject
             if ( moving ) {
 
                 if ( dashEnable && LE_INPUT->getKeyState( SDLK_SPACE ) == keyState::pressed ){
+                    LE_AUDIO->playChunk ( "dash", 1 );
                     dashing = true;
                     timeSinceLastDash = 0;
 
@@ -291,6 +292,16 @@ class SimpleGame: public LE_GameState
             bulletMax = 100;
 
             // Load assets and game objects
+            
+            // Load Audio
+            static bool once = true;
+            if ( once ) {
+                LE_AUDIO->loadTrack ( "mainMusic", "assets/mixkit-dreaming-big-31.mp3" );
+                LE_AUDIO->loadChunk ( "dash", "assets/mixkit-arcade-retro-jump-223.wav" );
+                LE_AUDIO->loadChunk ( "hit","assets/mixkit-arcade-mechanical-bling-210.wav" );
+                LE_AUDIO->loadChunk ( "coin", "assets/mixkit-quick-positive.wav" );
+                once = false;
+            }
 
             // Load Background
             LE_TILEMAP->loadFromXmlFile ( "assets/tilemaps/test.xml", mainWindow );
@@ -304,6 +315,8 @@ class SimpleGame: public LE_GameState
             addObject ( new Background(), "BackgroundInstance"  );
             addObject ( player, "playerInstance" );
             addObject ( new Bullet(), "cfirstBullet" );
+
+            LE_AUDIO->playTrack ( "mainMusic", -1 );
         }
         
         void update () {
@@ -331,6 +344,7 @@ class SimpleGame: public LE_GameState
                          && currentBullet->y < player->y + 24
                          && currentBullet->y + currentBullet->b_h > player->y ) {
                         // COLLISION
+                        LE_AUDIO->playChunk ( "hit", 0 );
                         
                         clean(); // Clear all objects
                         on_enter(); // Over again
