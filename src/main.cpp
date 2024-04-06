@@ -419,6 +419,13 @@ class SimpleGame: public LE_GameState
                 // COIN COLLISION
                 LE_AUDIO->playChunk ( "coin", 0 );
                 score = (score + 1) % 1000;
+
+                if ( score == 100 ) {
+                    LE_TILEMAP->blendToTexture ( "sunset-background", "bgTexture" );
+                } else if ( score == 50 ) {
+                    LE_TILEMAP->blendToTexture ( "forest-background", "bgTexture" );
+                }
+
                 set_score (score);
                 bulletFreq += 1; // It gets harder
                 coin->relocate();
@@ -455,16 +462,20 @@ class SimpleGame: public LE_GameState
             static int renderHeight, renderWidth;
             static int w_x, w_y;
 
-            if (windowHeight > windowWidth) {
-                renderWidth = windowWidth;
-                renderHeight = SCREEN_H * windowWidth / SCREEN_W;
-                w_x = 0;
-                w_y = (windowHeight - renderHeight)/2;
-            } else {
-                renderHeight = windowHeight;
-                renderWidth = SCREEN_W * windowHeight / SCREEN_H;
-                w_y = 0;
-                w_x = (windowWidth - renderWidth)/2;
+            static bool once = true;
+            if ( once ) {
+                if (windowHeight > windowWidth) {
+                    renderWidth = windowWidth;
+                    renderHeight = SCREEN_H * windowWidth / SCREEN_W;
+                    w_x = 0;
+                    w_y = (windowHeight - renderHeight)/2;
+                } else {
+                    renderHeight = windowHeight;
+                    renderWidth = SCREEN_W * windowHeight / SCREEN_H;
+                    w_y = 0;
+                    w_x = (windowWidth - renderWidth)/2;
+                }
+                once = false;
             }
             LE_TEXTURE->draw ( mainWindow, "mainViewTile", w_x, w_y, 
                     renderHeight, renderWidth, false );

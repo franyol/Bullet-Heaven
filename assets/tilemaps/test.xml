@@ -2,9 +2,17 @@
 <TILESETS>
     <texture filename="assets/tilemap-backgrounds.png" id="bg">
         <tile id="sky-day" x="0" y="0" h="24" w="24"/>
+        <tile id="sky-sunset" x="100" y="0" h="24" w="24"/>
+        <tile id="sky-forest" x="150" y="0" h="24" w="24"/>
         <tile id="floor-day" x="0" y="50" h="24" w="24"/>
+        <tile id="floor-sunset" x="100" y="50" h="24" w="24"/>
+        <tile id="floor-forest" x="150" y="50" h="24" w="24"/>
         <tile id="p1-day" x="0" y="25" h="24" w="24"/>
+        <tile id="p1-sunset" x="100" y="25" h="24" w="24"/>
+        <tile id="p1-forest" x="150" y="25" h="24" w="24"/>
         <tile id="p2-day" x="25" y="25" h="24" w="24"/>
+        <tile id="p2-sunset" x="125" y="25" h="24" w="24"/>
+        <tile id="p2-forest" x="175" y="25" h="24" w="24"/>
         <tile id="p3-day" x="50" y="25" h="24" w="24"/>
         <tile id="p4-day" x="75" y="25" h="24" w="24"/>
     </texture>
@@ -37,6 +45,50 @@
     </texture>
 </TILESETS>
 <TILEMAPS>
+    <tilemap id="forest-background">
+        <set tile="sky-forest">
+            <pos x="0" y="0" h="2" w="2" angle="0" scale="true" flipv="false" fliph="false"/>
+            <pos x="48" y="0" h="2" w="2" angle="0" scale="true" flipv="false" fliph="false"/>
+            <pos x="96" y="0" h="2" w="2" angle="0" scale="true" flipv="false" fliph="false"/>
+            <pos x="144" y="0" h="2" w="2" angle="0" scale="true" flipv="false" fliph="false"/>
+        </set>
+        <set tile="floor-forest">
+            <pos x="0" y="96" h="2" w="2" angle="0" scale="true" flipv="false" fliph="false"/>
+            <pos x="48" y="96" h="2" w="2" angle="0" scale="true" flipv="false" fliph="false"/>
+            <pos x="96" y="96" h="2" w="2" angle="0" scale="true" flipv="false" fliph="false"/>
+            <pos x="144" y="96" h="2" w="2" angle="0" scale="true" flipv="false" fliph="false"/>
+        </set>
+        <set tile="p1-forest">
+            <pos x="0" y="48" h="2" w="2" angle="0" scale="true" flipv="false" fliph="false"/>
+            <pos x="96" y="48" h="2" w="2" angle="0" scale="true" flipv="false" fliph="false"/>
+        </set>
+        <set tile="p2-forest">
+            <pos x="48" y="48" h="2" w="2" angle="0" scale="true" flipv="false" fliph="false"/>
+            <pos x="144" y="48" h="2" w="2" angle="0" scale="true" flipv="false" fliph="false"/>
+        </set>
+    </tilemap>
+    <tilemap id="sunset-background">
+        <set tile="sky-sunset">
+            <pos x="0" y="0" h="2" w="2" angle="0" scale="true" flipv="false" fliph="false"/>
+            <pos x="48" y="0" h="2" w="2" angle="0" scale="true" flipv="false" fliph="false"/>
+            <pos x="96" y="0" h="2" w="2" angle="0" scale="true" flipv="false" fliph="false"/>
+            <pos x="144" y="0" h="2" w="2" angle="0" scale="true" flipv="false" fliph="false"/>
+        </set>
+        <set tile="floor-sunset">
+            <pos x="0" y="96" h="2" w="2" angle="0" scale="true" flipv="false" fliph="false"/>
+            <pos x="48" y="96" h="2" w="2" angle="0" scale="true" flipv="false" fliph="false"/>
+            <pos x="96" y="96" h="2" w="2" angle="0" scale="true" flipv="false" fliph="false"/>
+            <pos x="144" y="96" h="2" w="2" angle="0" scale="true" flipv="false" fliph="false"/>
+        </set>
+        <set tile="p1-sunset">
+            <pos x="0" y="48" h="2" w="2" angle="0" scale="true" flipv="false" fliph="false"/>
+            <pos x="96" y="48" h="2" w="2" angle="0" scale="true" flipv="false" fliph="false"/>
+        </set>
+        <set tile="p2-sunset">
+            <pos x="48" y="48" h="2" w="2" angle="0" scale="true" flipv="false" fliph="false"/>
+            <pos x="144" y="48" h="2" w="2" angle="0" scale="true" flipv="false" fliph="false"/>
+        </set>
+    </tilemap>
     <tilemap id="day-background">
         <set tile="sky-day">
             <pos x="0" y="0" h="2" w="2" angle="0" scale="true" flipv="false" fliph="false"/>
