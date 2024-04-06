@@ -8,6 +8,10 @@ The project It's not well optimized yet (Specially the src dir, which contains a
 
 Enjoy it!
 
+# Run on windows
+uncompress [WindowsExecutable.zip](https://github.com/franyol/Bullet-Heaven/blob/main/WindowsExecutable.zip)
+and run the `main.exe`
+
 ## Dependencies
 * SDL2
 * SDL2_image
