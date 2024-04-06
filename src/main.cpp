@@ -31,6 +31,53 @@ class Background: public LE_GameObject
         }
 };
 
+class Number: public LE_GameObject
+{
+    friend class SimpleGame;
+
+    public:
+        Number ( int x_, int y_ ) { 
+            setup(); 
+            x = x_; 
+            y = y_;  
+        }
+
+        void setup () {
+            LE_GameObject::setup();
+
+            string str;
+            for ( int i = 0; i < 10; i++ ) {
+                str = to_string(i);
+                frames[str] = { str, mainWindow };
+            }
+            currentFrame = "0";
+            h = w = 3;
+        }
+};
+
+class Coin: public LE_GameObject
+{
+    friend class SimpleGame;
+
+    public:
+        Coin () { setup(); }
+
+        void setup () {
+            LE_GameObject::setup();
+            frames["coin"] = { "coin", mainWindow };
+            currentFrame = "coin";
+            h = 24;
+            w = 24;
+            scale = false;
+            relocate();
+        }
+
+        void relocate () {
+            x = SCREEN_W/4 + dis(gen)*SCREEN_W/200;
+            y = SCREEN_H/4 + dis(gen)*SCREEN_H/200;
+        }
+};
+
 class Bullet: public LE_GameObject
 {
     friend class SimpleGame;
@@ -112,10 +159,12 @@ class Bullet: public LE_GameObject
             if ( y > SCREEN_H - b_h ) { 
                 y = SCREEN_H - b_h ;
                 y_speed *= -1;
+                LE_AUDIO->playChunk ( "bounce", 0 );
             }
             else if ( y < 0 ) {
                 y = 0;
                 y_speed *= -1;
+                LE_AUDIO->playChunk ( "bounce", 0 );
             }
 
             // Object Destroy condition
@@ -175,7 +224,7 @@ class Player: public LE_GameObject
             animFPS = 12;
             animTime = 0;
 
-            dashCoolDown = 1400;
+            dashCoolDown = 700;
             timeSinceLastDash = dashCoolDown;
             dashTime = 100;
             dashSpeed = 1100;
@@ -208,7 +257,7 @@ class Player: public LE_GameObject
             if ( moving ) {
 
                 if ( dashEnable && LE_INPUT->getKeyState( SDLK_SPACE ) == keyState::pressed ){
-                    LE_AUDIO->playChunk ( "dash", 1 );
+                    LE_AUDIO->playChunk ( "dash", 0 );
                     dashing = true;
                     timeSinceLastDash = 0;
 
@@ -278,18 +327,36 @@ class SimpleGame: public LE_GameState
         int bulletCount;
         int bulletMax;
 
-        Player* player = dynamic_cast<Player*>(getObject ( "playerInstance" ));
+        Player* player;
+        Coin* coin;
         Bullet* currentBullet;
+
+        Number *cent, *dec, *unit;
+
+        int score;
 
     public:
         SimpleGame () {}
 
+        void set_score ( int score ) {
+
+            int n_cent, n_dec;
+            n_cent = score - (score%100);
+            score = score - n_cent;
+            n_dec = score - (score%10);
+            score = score - n_dec;
+            cent->currentFrame = ( to_string ( (n_cent)/100 ) );
+            dec->currentFrame = ( to_string ( (n_dec)/10 ) );
+            unit->currentFrame = ( to_string ( score ) );
+        }
+
         void on_enter () {
 
-            bulletFreq = 100;
+            bulletFreq = 10;
             bulletTime = 0;
             bulletCount = 1;
             bulletMax = 100;
+            score = 0;
 
             // Load assets and game objects
             
@@ -300,6 +367,7 @@ class SimpleGame: public LE_GameState
                 LE_AUDIO->loadChunk ( "dash", "assets/mixkit-arcade-retro-jump-223.wav" );
                 LE_AUDIO->loadChunk ( "hit","assets/mixkit-arcade-mechanical-bling-210.wav" );
                 LE_AUDIO->loadChunk ( "coin", "assets/mixkit-quick-positive.wav" );
+                LE_AUDIO->loadChunk ( "bounce", "assets/bounce.wav" );
                 once = false;
             }
 
@@ -312,9 +380,20 @@ class SimpleGame: public LE_GameState
 
             // Spawn the player
             player = new Player();
-            addObject ( new Background(), "BackgroundInstance"  );
-            addObject ( player, "playerInstance" );
+            coin = new Coin();
+
+            cent = new Number ( 20, 20 );
+            dec = new Number ( 60, 20 );
+            unit = new Number ( 100, 20 );
+
+            addObject ( new Background(), "aBackgroundInstance" );
+            addObject ( player, "bplayerInstance" );
             addObject ( new Bullet(), "cfirstBullet" );
+            addObject ( coin, "bcoin" );
+
+            addObject ( cent, "zcent" );
+            addObject ( dec, "zdec" );
+            addObject ( unit, "zunit" );
 
             LE_AUDIO->playTrack ( "mainMusic", -1 );
         }
@@ -333,15 +412,27 @@ class SimpleGame: public LE_GameState
                 LE_GAME->exit();
 
             // Check hitboxes
+            if ( coin->x < player->x + 40
+                 && coin->x + 25 > player->x
+                 && coin->y < player->y + 48
+                 && coin->y + 25 > player->y ) {
+                // COIN COLLISION
+                LE_AUDIO->playChunk ( "coin", 0 );
+                score = (score + 1) % 1000;
+                set_score (score);
+                bulletFreq += 1; // It gets harder
+                coin->relocate();
+            }
+
             for ( auto it = gameObjects.begin(); it != gameObjects.end(); it++ ) {
                 if ( it->first.find( "Bullet" ) != string::npos ) {
                     // Check hitbox of a single bullet
                     
                     currentBullet = dynamic_cast<Bullet*>(it->second);
 
-                    if ( currentBullet->x < player->x + 20
+                    if ( currentBullet->x < player->x + 40
                          && currentBullet->x + currentBullet->b_w > player->x
-                         && currentBullet->y < player->y + 24
+                         && currentBullet->y < player->y + 48
                          && currentBullet->y + currentBullet->b_h > player->y ) {
                         // COLLISION
                         LE_AUDIO->playChunk ( "hit", 0 );

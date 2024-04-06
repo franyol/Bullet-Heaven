@@ -21,8 +21,19 @@
         <tile id="alien-step4" x="177" y="0" h="24" w="20"/>
     </texture>
     <texture filename="assets/tilemap.png" id="miscellaneous">
-        <tile id="bullet-small" x="155" y="4" h="10" w="10"/>
+        <tile id="bullet-small" x="156" y="4" h="10" w="10"/>
         <tile id="bullet" x="135" y="2" h="14" w="14"/>
+        <tile id="coin" x="212" y="136" h="12" w="12"/>
+        <tile id="0" x="193" y="154" h="14" w="12"/>
+        <tile id="1" x="213" y="154" h="14" w="12"/>
+        <tile id="2" x="231" y="154" h="14" w="12"/>
+        <tile id="3" x="250" y="154" h="14" w="12"/>
+        <tile id="4" x="269" y="154" h="14" w="12"/>
+        <tile id="5" x="288" y="154" h="14" w="12"/>
+        <tile id="6" x="307" y="154" h="14" w="12"/>
+        <tile id="7" x="326" y="154" h="14" w="12"/>
+        <tile id="8" x="345" y="154" h="14" w="12"/>
+        <tile id="9" x="364" y="154" h="14" w="12"/>
     </texture>
 </TILESETS>
 <TILEMAPS>
