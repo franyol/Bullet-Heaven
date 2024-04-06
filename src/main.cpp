@@ -352,11 +352,11 @@ class SimpleGame: public LE_GameState
 
         void on_enter () {
 
-            bulletFreq = 10;
+            bulletFreq = 30;
             bulletTime = 0;
             bulletCount = 1;
             bulletMax = 100;
-            score = 0;
+            score = 46;
 
             // Load assets and game objects
             
